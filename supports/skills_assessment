@@ -1,0 +1,66 @@
+👥 Note d’accompagnement
+
+L’intention de ce projet est de permettre à l’étudiant de mettre en œuvre des compétences de Data Architect, au travers de la mise en place d’une architecture Big Data.
+
+En effet, si votre étudiant vous questionne sur la pertinence d’acquérir les compétences du projet, vous pouvez lui expliquer qu’en tant que Data Scientist, il peut être amené à coordonner les actions de différents acteurs, en particulier des Data Architect. La connaissance d'un Cloud de type AWS ou Azure est d’ailleurs souvent exigé par les entreprises.
+
+Attention les ressources gratuites AWS sont limitées en puissance et capacité (RAM, CPU, nombre fichiers S3), ce qui oblige à mettre en œuvre des configurations et un jeu de d’images adaptés à ces capacités, sans remettre en cause l’objectif du projet :
+
+Envisager un serveur EC2 plus puissant « t2.medium », 4 GO RAM, 30 Go disque dur (coût estimé < 10 Euros)
+Sélectionner quelques dizaines d’images, parmi au moins 2 familles de fruits, c’est suffisant pour tester l’architecture
+Exemple d’architecture technique :
+
+Serveur AWS EC2 = exécution des scripts pyspark dans Jupyter Notebook
+Serveur fichier AWS S3 = stockage images initiales et fichiers créés par scripts dans S3
+Accès sécurisé SSH à la console du serveur EC2, via PuTTY (Windows) = accès à ligne de commande pour les installations
+Accès au serveur EC2 via « connexion bureau à distance » pour travailler sur le Notebook Jupyter
+Exemple de librairies Python :
+
+pyspark, version >= 2.3, idéalement 2.4 ou 3.0
+accès à S3  : par le SDK (boto3) ou l’API (S3a) pour upload et download de fichiers 
+Éventuellement utilisation de fichiers de type « parquet » pour les sauvegardes dans S3
+Le cours sur AWS décrit la création d’un serveur EC2 et d’un serveur de fichiers S3.
+
+Le choix d’une image disque du système « AMI » gratuite est assez limité, prendre par exemple un « Ubuntu bionic” version  18.04 ou ultérieure  et installer à la main tous les composants nécessaires afin d’avoir les dernières versions et la configuration adaptée (Anaconda, spark, boto3, …).
+
+Il est conseillé à l’étudiant de tester son notebook PySpark dans un premier temps sur son PC en local (Windows ou Linux) avant de le transférer sur l’instance EC2 AWS (Linux).
+
+Si l’étudiant constate que l’utilisation du Notebook Jupyter à distance est lente (même avec un t2.medium, 4 Go RAM), ou qu’il rencontre des problèmes de paramétrage, il ou elle peut installer un serveur local (sur PC perso) identique, dans une VM via VirtualBox (installation d’une VM Ubuntu bionic version 18.04 ou ultérieure), pour réaliser les tests d’installation, de paramétrage de l’environnement et d’exécution, avant de le transfert sur le serveur EC2 AWS pour démonstration. Cette approche, plus coûteuse en temps d’installation, réduira le coût financier d’un serveur EC2 t2.medium.
+
+Assurez-vous que l’étudiant développe les traitements de pre-processing et de réduction de dimension en pyspark, dans le cadre d’une « sparkSession ».
+
+Le pre-processing consiste à accéder aux images sur S3, les transformer, et préparer les matrices des images et labels (type de fruit = nom du dossier associé à l’image).
+
+En cas de dépassement mémoire lors de la réduction de dimension (PCA), l’étudiant pourra diminuer la taille et le nombre d’images à traiter (pre-processing), afin d’éviter de passer du temps sur le tuning mémoire des sessions spark (hors scope).
+
+Concernant le développement du notebook en PySpark, l’étudiant pourra par exemple utiliser un modèle CNN pré-entraîné simple (CNN Transfer Learning), en enlevant la dernière couche, afin de créer des features et réaliser ainsi naturellement une réduction de dimension. Il pourra encapsuler cette fonction dans un “pandas_udf “ afin de maintenir le traitement en mode distribué.
+
+🕵️‍ Évaluation des compétences
+
+🎯Identifier les outils du cloud permettant de mettre en place un environnement Big Data
+
+❒ L'apprenant a identifié les différentes briques d'architecture nécessaire pour la mise en place d'un environnement Big Data
+
+❒ L'apprenant a identifié les outils du cloud permettant de mettre en place l'environnement Big Data
+
+🎯Utiliser les outils du cloud pour manipuler de la donnée dans un environnement Big Data
+
+❒ Les fichiers (de départ et ceux après transformation) sont chargés dans un espace de stockage cloud
+
+❒ Les scripts ont été exécutés en utilisant des machines dans le cloud
+
+❒ Un des scripts permet d'écrire les sorties du programme directement dans l'espace de stockage cloud (s'assurer que toute la chaîne de traitement peut-être exécutée dans le cloud et qu'il n'y a pas téléchargement des fichiers en local puis chargement à la main des fichiers dans le cloud) 
+
+🎯Paralléliser des opérations de calcul avec Pyspark
+
+❒ Les traitements critiques lors d'un passage à l'échelle en terme de volume de données sont identifiés
+
+❒ Les scripts sont développés en Pyspark 
+
+Respect des consignes
+
+❒ Les livrables sont complets
+
+❒ Les livrables ont été déposés 48h à l'avance
+
+❒ Le temps de présentation est bien géré par l'étudiant
