@@ -2,5 +2,3 @@ sagemaker_pyspark
 ipympl==0.8.7
 Pillow==9.0.1
 pyarrow==7.0.0
-
-
