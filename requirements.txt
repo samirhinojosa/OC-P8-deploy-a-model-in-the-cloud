@@ -1,4 +1,7 @@
+numpy==1.21.4
+pandas==1.3.5
 ipympl==0.8.7
-Pillow==8.4.0
-pyarrow==6.0.1
-sagemaker_pyspark
+Pillow==9.0.1
+pyarrow==7.0.0
+botocore==1.23.24
+boto3==1.20.24
