@@ -1,4 +1,4 @@
-sagemaker_pyspark
 ipympl==0.8.7
-Pillow==9.0.1
-pyarrow==7.0.0
+Pillow==8.4.0
+pyarrow==6.0.1
+sagemaker_pyspark
