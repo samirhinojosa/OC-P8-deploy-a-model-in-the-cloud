@@ -1,0 +1,10 @@
+numpy
+pandas
+ipympl
+Pillow
+pyarrow
+botocore
+boto3
+py4j
+wheel
+tensorflow
