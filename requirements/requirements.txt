@@ -9,3 +9,7 @@ py4j==0.10.9.2
 wheel==0.37.1
 tensorflow==2.7.0
 findspark==2.0.1
+matplotlib==3.5.1
+seaborn==0.11.2
+fsspec==2022.1.0
+s3fs==2022.1.0
