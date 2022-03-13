@@ -7,59 +7,27 @@ import matplotlib.pyplot as plt
 import cv2
 
 
-def contrast_and_brightness(image_original):
+def noise_reduction(image_original):
     """
-    Method used to fit the contrast and brightness automatically
+    Method used to reduce noise in image
 
     Parameters:
     -----------------
-        image (img): Image in PIL format
+        original_image (img): Original image in PIL format
 
     Returns:
     -----------------
         image_result (img): Image in PIL format
 
-    """    
-    clip_hist_percent = 0.3
-    
+    """
+
     # Reading the image and ist attributes from PIL format
     image = cv2.cvtColor(np.array(image_original), cv2.COLOR_RGB2BGR)
     
-    # Reading grays in the image
-    gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-
-    # Calculate grayscale histogram
-    hist = cv2.calcHist([gray_image], [0], None, [256], [0, 256])
-    hist_size = len(hist)
-
-    # Calculate cumulative distribution from the histogram
-    accumulator = []
-    accumulator.append(float(hist[0]))
-    for index in range(1, hist_size):
-        accumulator.append(accumulator[index-1] + float(hist[index]))
-
-    # Locate points to clip
-    maximum = accumulator[-1]
-    clip_hist_percent *= (maximum/100.0)
-    clip_hist_percent /= 2.0
-
-    # Locate left cut
-    minimum_gray = 0
-    while accumulator[minimum_gray] < clip_hist_percent:
-        minimum_gray += 1
-
-    # Locate right cut
-    maximum_gray = hist_size-1
-    while accumulator[maximum_gray] >= (maximum - clip_hist_percent):
-        maximum_gray -= 1
-
-    # Calculate alpha and beta values
-    alpha = 255/(maximum_gray-minimum_gray)
-    beta = -minimum_gray * alpha
-
-    image_result = cv2.convertScaleAbs(image, alpha=alpha, beta=beta)
+    # Treating noise and transforming to RGB
+    image_result = cv2.fastNlMeansDenoisingColored(image, None, 10, 10, 7, 21)
     image_result = cv2.cvtColor(image_result, cv2.COLOR_BGR2RGB)
-    
+
     # Transforming the image to PIL format
     image_result = Image.fromarray(image_result)
     
@@ -115,9 +83,9 @@ def show_image_and_histogram(original_image, edited_image):
     plt.show()
     
 
-def noise_reduction(image_original):
+def gaussian_blur(image_original):
     """
-    Method used to reduce noise in image
+    Method used to treat the image with GaussianBlur
 
     Parameters:
     -----------------
@@ -129,12 +97,11 @@ def noise_reduction(image_original):
 
     """
 
-
     # Reading the image and ist attributes from PIL format
     image = cv2.cvtColor(np.array(image_original), cv2.COLOR_RGB2BGR)
     
     # Treating noise and transforming to RGB
-    image_result = cv2.fastNlMeansDenoisingColored(image, None, 10, 10, 7, 21)
+    image_result = cv2.GaussianBlur(image, (5, 5), 0)
     image_result = cv2.cvtColor(image_result, cv2.COLOR_BGR2RGB)
 
     # Transforming the image to PIL format
